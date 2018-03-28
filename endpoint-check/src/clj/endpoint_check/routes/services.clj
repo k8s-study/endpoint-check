@@ -1,6 +1,7 @@
 (ns endpoint-check.routes.services
   (:require [ring.util.http-response :refer :all]
             [compojure.api.sweet :refer :all]
+            [org.httpkit.client :as http]
             [schema.core :as s]))
 
 (defapi service-routes
@@ -9,7 +10,22 @@
              :data {:info {:version "1.0.0"
                            :title "Sample API"
                            :description "Sample Services"}}}}
-  
+
+  (context "/api" []
+    :tags ["ping-test"]
+    (GET "/ping" []
+      :query-params [{url :- String "https://google.com"}]
+      :summary      "url defaults to https://google.com."
+      (def response (atom []))
+
+      (ok {:json (let [urls ["http://http-kit.org/" "http://google.com/"
+                            "http://http-kit.org/"] sum ["ss"]
+                      futures (doall (map http/get urls))]
+
+                  (doseq [resp futures]
+                    (swap! response conj {:url (-> @resp :opts :url) :status (:status @resp)})
+                    (println (-> @resp :opts :url) " status: " (:status @resp))) @response)})))
+  ;
   (context "/api" []
     :tags ["thingie"]
 

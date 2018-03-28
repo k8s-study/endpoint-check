@@ -1,11 +1,11 @@
-# ping-check-clj
+# endpoint-check
 
-ping-check-clj is an open source study material that makes it easy to test for deploying kubenetes.
+endpoint-check is an open source study material that makes it easy to test for deploying kubenetes.
 
 
 ### Download and Install
 
-0. lein new luminus ping-check-clj +http-kit +mongodb +auth +swagger +service
+0. lein new luminus endpoint-check +http-kit +swagger +service
 
 1. lein run 
 
