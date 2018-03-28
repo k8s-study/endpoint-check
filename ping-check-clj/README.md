@@ -1,11 +1,11 @@
 # ping-check-clj
 
 ping-check-clj is an open source study material that makes it easy to test for deploying kubenetes.
-
+a
 
 ### Download and Install
 
-0. lein new luminus ping-check-clj +http-kit +mongodb +auth +swagger +service
+0. lein new luminus ping-check-clj +mongodb +auth +swagger +service
 
 1. lein run 
 
@@ -90,7 +90,7 @@ https://news.ycombinator.com/item?id=12371248
 - cider
 - luminus (http://www.luminusweb.net/)
 
-- lein new luminus myapp +http-kit +mongodb +auth +swagger
+- lein new luminus myapp +mongodb +auth +swagger +service
 - monger (http://clojuremongodb.info/)
 - leinengen -> docker build (terminal)
 - sudo docker run -it --rm -p 3000:3000 --name clojure-instance clj-image
