@@ -1,1 +1,0 @@
-web: java -cp target/uberjar/ping-check-clj.jar clojure.main -m ping-check-clj.core
