@@ -1,28 +1,7 @@
-(ns ping-check-clj.routes.services
+(ns endpoint-check.routes.services
   (:require [ring.util.http-response :refer :all]
             [compojure.api.sweet :refer :all]
-            [schema.core :as s]
-            [compojure.api.meta :refer [restructure-param]]
-            [buddy.auth.accessrules :refer [restrict]]
-            [buddy.auth :refer [authenticated?]]))
-
-(defn access-error [_ _]
-  (unauthorized {:error "unauthorized"}))
-
-(defn wrap-restricted [handler rule]
-  (restrict handler {:handler  rule
-                     :on-error access-error}))
- 
-(defmethod restructure-param :auth-rules
-  [_ rule acc]
-  (update-in acc [:middleware] conj [wrap-restricted rule]))
-
-(defmethod restructure-param :current-user
-  [_ binding acc]
-  (update-in acc [:letks] into [binding `(:identity ~'+compojure-api-request+)]))
-
-(defn ur-health-check []
-  "ss")
+            [schema.core :as s]))
 
 (defapi service-routes
   {:swagger {:ui "/swagger-ui"
@@ -30,19 +9,7 @@
              :data {:info {:version "1.0.0"
                            :title "Sample API"
                            :description "Sample Services"}}}}
-
-  (GET "/authenticated" []
-    :auth-rules authenticated?
-    :current-user user
-    (ok {:user user}))
-
-  (context "/api" []
-    :tags ["ping-test"]
-    (GET "/ping" []
-      :query-params [{url :- String "https://google.com"}]
-      :summary      "url defaults to https://google.com."
-      (ok {:url url})))
-
+  
   (context "/api" []
     :tags ["thingie"]
 
