@@ -8,12 +8,13 @@ endpoint-check is an open source study material that makes it easy to test for d
 POST  localhost:3000/api/ping
 ```json
 {
-	"urls" : 
-      ["https://www.docker.com/", 
-      "http://http-kit.org/", 
-      "http://google.com/",
-      "https://kubernetes.io/",
-      "https://slack.com/"]
+	"urls" : [
+        "https://www.docker.com/", 
+        "http://http-kit.org/", 
+        "http://google.com/",
+        "https://kubernetes.io/",
+        "https://slack.com/"
+    ]
 }
 ```
 
