@@ -3,6 +3,47 @@
 endpoint-check is an open source study material that makes it easy to test for deploying kubenetes.
 
 
+### Usage
+
+POST  localhost:3000/api/ping
+```json
+{
+	"urls" : 
+      ["https://www.docker.com/", 
+      "http://http-kit.org/", 
+      "http://google.com/",
+      "https://kubernetes.io/",
+      "https://slack.com/"]
+}
+```
+
+will Return
+```json
+[
+    {
+        "url": "https://www.docker.com/",
+        "status": 200
+    },
+    {
+        "url": "http://www.http-kit.org/",
+        "status": 200
+    },
+    {
+        "url": "http://www.google.co.kr/?gfe_rd=cr&dcr=0&ei=ovy8Wse0Bcrd8Aev9oioBQ",
+        "status": 200
+    },
+    {
+        "url": "https://kubernetes.io/",
+        "status": 200
+    },
+    {
+        "url": "https://slack.com/",
+        "status": 200
+    }
+]
+```
+
+
 ### Download and Install
 
 0. lein new luminus endpoint-check +http-kit +swagger +service
