@@ -10,22 +10,20 @@
              :data {:info {:version "1.0.0"
                            :title "Sample API"
                            :description "Sample Services"}}}}
-
+  ;; ping-test
   (context "/api" []
     :tags ["ping-test"]
-    (GET "/ping" []
-      :query-params [{url :- String "https://google.com"}]
-      :summary      "url defaults to https://google.com."
-      (def response (atom []))
+    (POST "/ping" []
+      :body-params [urls :- [String]]
+      :summary "request urls"
+      (def responseStatus (atom []))
+      (ok (let [url urls
+                futures (doall (map http/get url))]
+            (doseq [resp futures]
+              (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
+              (println (-> @resp :opts :url) " status: " (:status @resp))) @responseStatus))))
 
-      (ok {:json (let [urls ["http://http-kit.org/" "http://google.com/"
-                            "http://http-kit.org/"] sum ["ss"]
-                      futures (doall (map http/get urls))]
-
-                  (doseq [resp futures]
-                    (swap! response conj {:url (-> @resp :opts :url) :status (:status @resp)})
-                    (println (-> @resp :opts :url) " status: " (:status @resp))) @response)})))
-  ;
+  ;; default test api
   (context "/api" []
     :tags ["thingie"]
 
