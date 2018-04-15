@@ -9,6 +9,7 @@
                  [cprop "0.1.11"]
                  [funcool/struct "1.2.0"]
                  [luminus-http-kit "0.1.5"]
+                 [http-kit "2.3.0-beta2"]
                  [luminus-nrepl "0.1.4"]
                  [luminus/ring-ttl-session "0.3.2"]
                  [markdown-clj "1.0.2"]
