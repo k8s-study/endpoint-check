@@ -46,6 +46,13 @@ will Return
 
 
 ### Download and Install
+======================Docker=====================
+
+docker pull tedpark/endpoint-check
+
+docker run -p 3000:3000 tedpark/endpoint-check
+
+=================================================
 
 https://github.com/technomancy/leiningen
 
