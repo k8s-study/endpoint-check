@@ -56,7 +56,6 @@ docker run -p 3000:3000 tedpark/endpoint-check
 
 https://github.com/technomancy/leiningen
 
-Mac
 brew install leiningen
 
 0. lein new luminus endpoint-check +http-kit +swagger +service
