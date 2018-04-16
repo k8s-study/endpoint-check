@@ -47,6 +47,11 @@ will Return
 
 ### Download and Install
 
+https://github.com/technomancy/leiningen
+
+Mac
+brew install leiningen
+
 0. lein new luminus endpoint-check +http-kit +swagger +service
 
 1. lein run 
