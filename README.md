@@ -5,6 +5,9 @@ endpoint-check is an open source study material that makes it easy to test for d
 
 ### Usage
 
+kubectl create -f deploy.yml
+
+
 POST  localhost:3000/api/ping
 ```json
 {
