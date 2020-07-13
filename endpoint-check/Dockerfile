@@ -1,7 +1,6 @@
-FROM java:8-alpine
-MAINTAINER Your Name <you@example.com>
+FROM openjdk:8-alpine
 
-ADD target/uberjar/endpoint-check.jar /endpoint-check/app.jar
+COPY target/uberjar/endpoint-check.jar /endpoint-check/app.jar
 
 EXPOSE 3000
 

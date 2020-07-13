@@ -1,1 +1,1 @@
-web: java -cp target/uberjar/endpoint-check.jar clojure.main -m endpoint-check.core
+web: java -Dclojure.main.report=stderr -cp target/uberjar/endpoint-check.jar clojure.main -m endpoint-check.core

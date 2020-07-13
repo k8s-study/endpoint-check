@@ -16,9 +16,16 @@
             <pattern>%date{ISO8601} [%thread] %-5level %logger{36} - %msg %n</pattern>
         </encoder>
     </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-5relative %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
     <logger name="org.apache.http" level="warn" />
     <logger name="org.xnio.nio" level="warn" />
+    <logger name="org.eclipse.jetty" level="warn" />
     <root level="INFO">
         <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
     </root>
 </configuration>

@@ -1,6 +1,6 @@
 # endpoint-check
 
-generated using Luminus version "2.9.12.33"
+generated using Luminus version "3.78"
 
 FIXME
 
@@ -18,4 +18,4 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2018 FIXME
+Copyright © 2020 FIXME
