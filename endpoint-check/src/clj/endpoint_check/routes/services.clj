@@ -55,12 +55,16 @@
    ["/ping" []
     {:post {:body-params {:urls [:String]}}}
     
-     (let [responseStatus (atom [])]
-           (ok (let [url :urls          
-              futures (doall (map http/get url))]
-               (doseq [resp futures]
-                   (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
-                   (println (-> @resp :opts :url)) " status: " (:status @resp) @responseStatus))))
+    (map http/get
+         ["http://http-kit.org", "http://shennfeng.me"] ;; urls
+         (repeat {:timeout 1000}))
+    
+;;      (let [responseStatus (atom [])]
+;;            (ok (let [url :urls          
+;;               futures (doall (map http/get url))]
+;;                (doseq [resp futures]
+;;                    (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
+;;                    (println (-> @resp :opts :url)) " status: " (:status @resp) @responseStatus))))
     
     ]
 
