@@ -1,16 +1,17 @@
 (ns endpoint-check.routes.services
   (:require
-    [reitit.swagger :as swagger]
-    [reitit.swagger-ui :as swagger-ui]
-    [reitit.ring.coercion :as coercion]
-    [reitit.coercion.spec :as spec-coercion]
-    [reitit.ring.middleware.muuntaja :as muuntaja]
-    [reitit.ring.middleware.multipart :as multipart]
-    [reitit.ring.middleware.parameters :as parameters]
-    [endpoint-check.middleware.formats :as formats]
-    [endpoint-check.middleware.exception :as exception]
-    [ring.util.http-response :refer :all]
-    [clojure.java.io :as io]))
+   [reitit.swagger :as swagger]
+   [reitit.swagger-ui :as swagger-ui]
+   [reitit.ring.coercion :as coercion]
+   [reitit.coercion.spec :as spec-coercion]
+   [reitit.ring.middleware.muuntaja :as muuntaja]
+   [reitit.ring.middleware.multipart :as multipart]
+   [reitit.ring.middleware.parameters :as parameters]
+   [endpoint-check.middleware.formats :as formats]
+   [endpoint-check.middleware.exception :as exception]
+   [ring.util.http-response :refer :all]
+   [org.httpkit.client :as http]
+   [clojure.java.io :as io]))
 
 (defn service-routes []
   ["/api"
@@ -44,12 +45,25 @@
 
     ["/api-docs/*"
      {:get (swagger-ui/create-swagger-ui-handler
-             {:url "/api/swagger.json"
-              :config {:validator-url nil}})}]]
+            {:url "/api/swagger.json"
+             :config {:validator-url nil}})}]]
 
-   ["/ping"
+   ["/ping-old"
     {:get (constantly (ok {:message "pong"}))}]
-   
+
+;; ping-test
+   ["/ping" []
+    {:post {:body-params {:urls [:String]}}}
+    
+     (let [responseStatus (atom [])]
+           (ok (let [url :urls          
+              futures (doall (map http/get url))]
+               (doseq [resp futures]
+                   (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
+                   (println (-> @resp :opts :url)) " status: " (:status @resp) @responseStatus))))
+    
+    ]
+
 
    ["/math"
     {:swagger {:tags ["math"]}}

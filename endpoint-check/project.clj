@@ -11,6 +11,7 @@
                  [cprop "0.1.17"]
                  [expound "0.8.5"]
                  [funcool/struct "1.4.0"]
+                 [http-kit "2.4.0-alpha6"]
                  [luminus-jetty "0.1.9"]
                  [luminus-transit "0.1.2"]
                  [luminus/ring-ttl-session "0.3.3"]
