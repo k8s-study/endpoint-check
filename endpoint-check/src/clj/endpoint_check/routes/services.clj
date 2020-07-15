@@ -48,17 +48,36 @@
             {:url "/api/swagger.json"
              :config {:validator-url nil}})}]]
 
-   ["/ping-old"
+   ["/ping-oldss"
     {:get (constantly (ok {:message "pong"}))}]
 
+     ["/ping-old11"
+      {:get (constantly (ok {:message "pong"}))}]
 ;; ping-test
-   ["/ping" []
-    {:post {:body-params {:urls [:String]}}}
+   ["/ping" 
     
-    (map http/get
-         ["http://http-kit.org", "http://shennfeng.me"] ;; urls
-         (repeat {:timeout 1000}))
-    
+       ;;    {:post {:summary "plus with spec body parameters"
+       ;;       :parameters {:body {:urls [string?]}}
+       ;;       :responses {200 {:body {:total string?}}}
+       ;;       :handler (fn [{{{:keys [ ]} :body} :parameters}]
+       ;;                  {:status 200
+       ;;                   :body {:total "ssss"}})
+                 
+       ;;           
+                                                  
+
+       {:post {:summary "plus with spec body parameters"
+             :parameters {:body {:urls [string?]}}
+             :responses {200 {:body {:total string?}}}
+             :handler     (futures (doall (map http/get urls))
+                                  (doseq [resp futures]
+                                    (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
+                                    (println (-> @resp :opts) :url " status: ") (:status @resp) @responseStatus))}}
+                 
+   ]
+
+      
+  
 ;;      (let [responseStatus (atom [])]
 ;;            (ok (let [url :urls          
 ;;               futures (doall (map http/get url))]
@@ -66,7 +85,7 @@
 ;;                    (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
 ;;                    (println (-> @resp :opts :url)) " status: " (:status @resp) @responseStatus))))
     
-    ]
+    
 
 
    ["/math"
