@@ -53,26 +53,39 @@
 
      ["/ping-old11"
       {:get (constantly (ok {:message "pong"}))}]
+
+
 ;; ping-test
+;    (let responseStatus (atom []))
+;       (ok (let [url urls
+;                 futures (doall (map http/get url))]
+;             (doseq [resp futures]
+;               (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
+;               (println (-> @resp :opts :url) " status: " (:status @resp))) @responseStatus))))
+
    ["/ping" 
     
-       ;;    {:post {:summary "plus with spec body parameters"
-       ;;       :parameters {:body {:urls [string?]}}
-       ;;       :responses {200 {:body {:total string?}}}
-       ;;       :handler (fn [{{{:keys [ ]} :body} :parameters}]
-       ;;                  {:status 200
-       ;;                   :body {:total "ssss"}})
-                 
-       ;;           
-                                                  
-
-       {:post {:summary "plus with spec body parameters"
+          {:post {:summary "plus with spec body parameters"
              :parameters {:body {:urls [string?]}}
              :responses {200 {:body {:total string?}}}
-             :handler     (futures (doall (map http/get urls))
-                                  (doseq [resp futures]
-                                    (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
-                                    (println (-> @resp :opts) :url " status: ") (:status @resp) @responseStatus))}}
+             :handler 
+            
+             (fn [{{{:keys [ ]} :body} :parameters}]
+                      (let responseStatus (atom []))
+
+                        {:status 200
+                         :body {:total "ssss"}})}}
+                 
+                 
+                                                  
+
+       ; {:post {:summary "plus with spec body parameters"
+       ;       :parameters {:body {:urls [string?]}}
+       ;       :responses {200 {:body {:total string?}}}
+       ;       :handler     (futures (doall (map http/get urls))
+       ;                            (doseq [resp futures]
+       ;                              (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
+       ;                              (println (-> @resp :opts) :url " status: ") (:status @resp) @responseStatus))}}
                  
    ]
 
