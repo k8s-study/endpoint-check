@@ -69,9 +69,9 @@
              :parameters {:body {:urls [string?]}}
              :responses {200 {:body {:total string?}}}
              :handler 
-            
-             (fn [{{{:keys [ ]} :body} :parameters}]
-                      (let responseStatus (atom []))
+       ;      (let responseStatus (atom []))
+             (fn [ (let responseStatus (atom [])) {{{:keys [ ]} :body} :parameters}]
+                      
 
                         {:status 200
                          :body {:total "ssss"}})}}
