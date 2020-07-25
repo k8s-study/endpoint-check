@@ -54,32 +54,39 @@
              :config {:validator-url nil}})}]]
 
    ["/ping-oldss"
-    {:get (constantly (ok {:message "pong"}))}]
+    {:get (constantly (ok [{:message "pong"}, {:message "pong"}] ))  }]
 
    ["/ping-old11"
     {:get (constantly (ok {:message "pong"}))}]
 
 
-;  ["/ping"
-;       :post {:summary "plus with spec body parameters"
-;              :parameters {:body {:urls [string?]}}
-;              :responses {200 {:body {:total "pong"}}}
-;              :handler (fn [{{{:keys [x y]} :body} :parameters}]
-;                         {:status 200
-;                          :body {:total "pong"}})}]
+                                        ;  ["/ping"
+                                        ;       :post {:summary "plus with spec body parameters"
+                                        ;              :parameters {:body {:urls [string?]}}
+                                        ;              :responses {200 {:body {:total "pong"}}}
+                                        ;              :handler (fn [{{{:keys [x y]} :body} :parameters}]
+                                        ;                         {:status 200
+                                        ;                          :body {:total "pong"}})}]
 
 
+                                        ; (ok (let [url urls
+                                        ;               futures (doall (map http/get url))]
+                                        ;           (doseq [resp futures]
+                                        ;             (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
+                                        ;             (println (-> @resp :opts :url) " status: " (:status @resp))) @responseStatus))   
 
-   ["/ping" 
-       (def responseStatus (atom []))
-     {:get (ok (let [url ["https://google.com", "https://facebook.com"]
-                futures (doall (map http/get url))]
-            (doseq [resp futures]
-              (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
-              (println (-> @resp :opts :url) " status: " (:status @resp))) @responseStatus))  }]
 
+   ["/ping"
+    (constantly (ok (let [url ["https://google.com", "https://facebook.com"] futures (doall (map http/get url))]
+                      (def responseStatus (atom []))
+                      (doseq [resp futures]
+                        (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
+                        (println (-> @resp :opts :url) " status: " (:status @resp)) (println @responseStatus)) @responseStatus)))]
+   
    
 
+                                        ;  (constantly (ok {:message "pong"}))
+   
 
    ["/math"
     {:swagger {:tags ["math"]}}
