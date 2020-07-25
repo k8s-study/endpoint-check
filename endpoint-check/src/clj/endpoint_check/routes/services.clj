@@ -60,9 +60,8 @@
                                                                      (def responseStatus (atom []))
                                                                      (doseq [resp futures]
                                                                        (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
-                                                                       (println (-> @resp :opts :url) " status: " (:status @resp)) (println @responseStatus)) @responseStatus)))}}]
+                                                                       (println (-> @resp :opts :url) " status: " (:status @resp))) @responseStatus)))}}]
    
-
    ["/math"
     {:swagger {:tags ["math"]}}
 
