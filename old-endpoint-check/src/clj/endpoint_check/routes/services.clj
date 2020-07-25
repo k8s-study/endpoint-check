@@ -16,7 +16,7 @@
     (POST "/ping" []
       :body-params [urls :- [String]]
       :summary "request urls"
-      (let responseStatus (atom []))
+      (def responseStatus (atom []))
       (ok (let [url urls
                 futures (doall (map http/get url))]
             (doseq [resp futures]
