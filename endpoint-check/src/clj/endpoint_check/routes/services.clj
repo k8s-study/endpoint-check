@@ -60,100 +60,62 @@
     {:get (constantly (ok {:message "pong"}))}]
 
 
-   ;; ping-test
-     ;    (let responseStatus (atom []))
-     ;       (ok (let [url urls
-     ;                 futures (doall (map http/get url))]
-     ;             (doseq [resp futures]
-     ;               (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
-     ;               (println (-> @resp :opts :url) " status: " (:status @resp))) @responseStatus))))
+;  ["/ping"
+;       :post {:summary "plus with spec body parameters"
+;              :parameters {:body {:urls [string?]}}
+;              :responses {200 {:body {:total "pong"}}}
+;              :handler (fn [{{{:keys [x y]} :body} :parameters}]
+;                         {:status 200
+;                          :body {:total "pong"}})}]
 
-   
-     ;    ["/ping" 
-   
-   
+
 
    ["/ping" 
-     ;       
-     ;    (let responseStatus (atom []))
-     ;       (ok (let [url urls
-     ;                 futures (doall (map http/get url))]
-     ;             (doseq [resp futures]
-     ;               (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
-     ;               (println (-> @resp :opts :url) " status: " (:status @resp))) @responseStatus))))
+       (def responseStatus (atom []))
+     {:get (ok (let [url ["https://google.com", "https://facebook.com"]
+                futures (doall (map http/get url))]
+            (doseq [resp futures]
+              (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
+              (println (-> @resp :opts :url) " status: " (:status @resp))) @responseStatus))  }]
 
-    
-     {:get (constantly (ok {:message "pong"}))}]
-    
-
-     ;    {:post {:summary "plus with spec body parameters"
-     ;       :parameters {:body {:urls [string?]}}
-     ;       :responses {200 {:body {:total string?}}}
-     ;       :handler (test)
-     ;       (fn [ (let responseStatus (atom [])) {{{:keys [ ]} :body} :parameters}]
-     ;                  {:status 200
-     ;                   :body {:total "ssss"}})}}
-  
-  
-  
-
-     ; {:post {:summary "plus with spec body parameters"
-     ;       :parameters {:body {:urls [string?]}}
-     ;       :responses {200 {:body {:total string?}}}
-     ;       :handler     (futures (doall (map http/get urls))
-     ;                            (doseq [resp futures]
-     ;                              (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
-     ;                              (println (-> @resp :opts) :url " status: ") (:status @resp) @responseStatus))}}
-  
-     ;    ]
-
-  
-  
-  ;;      (let [responseStatus (atom [])]
-  ;;            (ok (let [url :urls          
-  ;;               futures (doall (map http/get url))]
-  ;;                (doseq [resp futures]
-  ;;                    (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
-  ;;                    (println (-> @resp :opts :url)) " status: " (:status @resp) @responseStatus))))
-  
-  
+   
 
 
-  ["/math"
-   {:swagger {:tags ["math"]}}
+   ["/math"
+    {:swagger {:tags ["math"]}}
 
-   ["/plus"
-    {:get {:summary "plus with spec query parameters"
-           :parameters {:query {:x int?, :y int?}}
-           :responses {200 {:body {:total pos-int?}}}
-           :handler (fn [{{{:keys [x y]} :query} :parameters}]
-                      {:status 200
-                       :body {:total (+ x y)}})}
-     :post {:summary "plus with spec body parameters"
-            :parameters {:body {:x int?, :y int?}}
+    ["/plus"
+     {:get {:summary "plus with spec query parameters"
+            :parameters {:query {:x int?, :y int?}}
             :responses {200 {:body {:total pos-int?}}}
-            :handler (fn [{{{:keys [x y]} :body} :parameters}]
+            :handler (fn [{{{:keys [x y]} :query} :parameters}]
                        {:status 200
-                        :body {:total (+ x y)}})}}]]
+                        :body {:total (+ x y)}})}
+      :post {:summary "plus with spec body parameters"
+             :parameters {:body {:x int?, :y int?}}
+             :responses {200 {:body {:total pos-int?}}}
+             :handler (fn [{{{:keys [x y]} :body} :parameters}]
+                        {:status 200
+                         :body {:total (+ x y)}})}}]]
 
-  ["/files"
-   {:swagger {:tags ["files"]}}
+   ["/files"
+    {:swagger {:tags ["files"]}}
 
-   ["/upload"
-    {:post {:summary "upload a file"
-            :parameters {:multipart {:file multipart/temp-file-part}}
-            :responses {200 {:body {:name string?, :size int?}}}
-            :handler (fn [{{{:keys [file]} :multipart} :parameters}]
+    ["/upload"
+     {:post {:summary "upload a file"
+             :parameters {:multipart {:file multipart/temp-file-part}}
+             :responses {200 {:body {:name string?, :size int?}}}
+             :handler (fn [{{{:keys [file]} :multipart} :parameters}]
+                        {:status 200
+                         :body {:name (:filename file)
+                                :size (:size file)}})}}]
+
+    ["/download"
+     {:get {:summary "downloads a file"
+            :swagger {:produces ["image/png"]}
+            :handler (fn [_]
                        {:status 200
-                        :body {:name (:filename file)
-                               :size (:size file)}})}}]
-
-   ["/download"
-    {:get {:summary "downloads a file"
-           :swagger {:produces ["image/png"]}
-           :handler (fn [_]
-                      {:status 200
-                       :headers {"Content-Type" "image/png"}
-                       :body (-> "public/img/warning_clojure.png"
-                                 (io/resource)
-                                 (io/input-stream))})}}]]])
+                        :headers {"Content-Type" "image/png"}
+                        :body (-> "public/img/warning_clojure.png"
+                                  (io/resource)
+                                  (io/input-stream))})}}]]])
