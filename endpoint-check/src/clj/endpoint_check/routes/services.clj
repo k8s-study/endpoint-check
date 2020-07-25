@@ -75,13 +75,18 @@
                                         ;             (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
                                         ;             (println (-> @resp :opts :url) " status: " (:status @resp))) @responseStatus))   
 
-
-   ["/ping"
-    (constantly (ok (let [url ["https://google.com", "https://facebook.com"] futures (doall (map http/get url))]
+;  :body-params [urls :- [String]]
+   ["/ping"     
+                                        ;  {:get (constantly (ok {:message "pong"}))} ]
+    {:post {:parameters {:body {:urls [string?]}}
+            :handler (fn [{{{:keys [urls]} :body} :parameters}] (ok (let [url urls  futures (doall (map http/get url))]
                       (def responseStatus (atom []))
                       (doseq [resp futures]
                         (swap! responseStatus conj {:url (-> @resp :opts :url) :status (:status @resp)})
-                        (println (-> @resp :opts :url) " status: " (:status @resp)) (println @responseStatus)) @responseStatus)))]
+                        (println (-> @resp :opts :url) " status: " (:status @resp)) (println @responseStatus) )   @responseStatus )   ) ) 
+                         }
+                         }
+    ]
    
    
 
@@ -103,7 +108,7 @@
              :responses {200 {:body {:total pos-int?}}}
              :handler (fn [{{{:keys [x y]} :body} :parameters}]
                         {:status 200
-                         :body {:total (+ x y)}})}}]]
+                         :body {:total (+ x y)}})}  }]]
 
    ["/files"
     {:swagger {:tags ["files"]}}
