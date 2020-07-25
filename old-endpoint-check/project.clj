@@ -12,6 +12,7 @@
                  [luminus-http-kit "0.1.5"]
                  [http-kit "2.4.0-alpha6"]
                  [lein-ancient "0.6.15"]
+                 [org.flatland/ordered "1.5.7"] 
                  [luminus-nrepl "0.1.4"]
                  [luminus/ring-ttl-session "0.3.2"]
                  [markdown-clj "1.0.2"]
